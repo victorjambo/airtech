@@ -1,1 +1,1 @@
-from .users import UserResource
+from .users import AuthSignupResource
