@@ -22,7 +22,7 @@ class AuthSignupResource(Resource):
         user_schema = UserSchema()
         user_data = user_schema.load_object_into_schema(request_data)
 
-        user_data["password"] = sha256_crypt.encrypt(str(user_data["password"]))
+        user_data["password"] = sha256_crypt.hash(str(user_data["password"]))
 
         user = User(**user_data)
         user.save()
@@ -34,4 +34,4 @@ class AuthSignupResource(Resource):
             "status": "success",
             "message": SUCCESS_MSG["register"].format("User"),
             "data": data
-        }
+        }, 201
