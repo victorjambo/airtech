@@ -72,3 +72,52 @@ class TestAuthSignupResource:
     assert response.status_code == 400
     assert response_json["status"] == "error"
     assert response_json["errors"]["password"][0] == "Provide a Stronger Password"
+
+
+
+class TestAuthLoginResource:
+  """Test AuthLoginResource POST endpoint
+  """
+
+  def test_login_with_valid_data_succeeds(self, client, init_db, auth_header):
+    """Test successfully login
+    """
+    victor = user_data["victor"]
+    del victor["email"]
+    data = json.dumps(victor)
+    response = client.post(f'{BASE_URL}/auth/login', headers=auth_header, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == SUCCESS_MSG["login"]
+
+  def test_login_with_wrong_username_fails(self, client, init_db, auth_header):
+    """Test fails login username
+    """
+
+    data = json.dumps({
+      "username": "invalid",
+      "password": "invalid"
+    })
+    response = client.post(f'{BASE_URL}/auth/login', headers=auth_header, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 404
+    assert response_json["status"] == "error"
+    assert response_json["message"] == ERROR_MSG["not_found"].format("User")
+
+  def test_login_with_wrong_password_fails(self, client, init_db, auth_header):
+    """Test fails login password
+    """
+
+    victor = user_data["victor"]
+    victor["password"] = "invalid"
+
+    data = json.dumps(victor)
+    response = client.post(f'{BASE_URL}/auth/login', headers=auth_header, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 401
+    assert response_json["status"] == "error"
+    assert response_json["message"] == "username and password do not match"  # TODO
