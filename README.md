@@ -9,13 +9,13 @@ Flight Booking System
 Company Airtech has had their challenges using spreadsheets to manage their flight booking system. They are ready to automate their processes with an application and have reached out to you to build a flight booking application for the company.
 
 ## Key Application features
->  • log in
->  • upload passport photographs
->  • book tickets
->  • receive tickets as an email
->  • check the status of their flight
->  • make flight reservations
->  • purchase tickets
+> - log in
+> - upload passport photographs
+> - book tickets
+> - receive tickets as an email
+> - check the status of their flight
+> - make flight reservations
+> - purchase tickets
 
 ## Development set up
 - Check that python 3 is installed:
