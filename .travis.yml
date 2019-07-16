@@ -1,0 +1,25 @@
+language: python
+# Supported Python versions
+python:
+  - "3.6"
+
+services:
+  - postgresql
+
+# Install dependencies
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database airtech_test;' -U postgres
+  - flask db upgrade
+
+script:
+  - pytest --cov=api tests
+
+ # Run coveralls
+after_success:
+  - coveralls
+
+env:
+  - FLASK_APP=app.py

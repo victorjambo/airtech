@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/victorjambo/airtech.svg?branch=master)](https://travis-ci.org/victorjambo/airtech)
+[![Coverage Status](https://coveralls.io/repos/github/victorjambo/airtech/badge.svg?branch=master)](https://coveralls.io/github/victorjambo/airtech?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9131b4f3b4fa4917ad50559a97ea8e0d)](https://www.codacy.com/app/victorjambo/airtech?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=victorjambo/airtech&amp;utm_campaign=Badge_Grade)
+
 ## Airtech Flight Booking API
 
 Flight Booking System
