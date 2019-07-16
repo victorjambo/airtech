@@ -1,7 +1,7 @@
 language: python
 # Supported Python versions
 python:
-  - "3.7"
+  - "3.7.4"
 
 services:
   - postgresql
