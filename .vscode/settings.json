@@ -1,0 +1,15 @@
+{
+  "python.pythonPath": "virtualenv/bin/python3.7",
+  "files.exclude": {
+    "api/__pycache__": true,
+    "api/middlewares/__pycache__": true,
+    "api/models/__pycache__": true,
+    "api/models/config/__pycache__": true,
+    "api/utilities/__pycache__": true,
+    "api/views/__pycache__": true,
+    "__pycache__": true,
+    "migrations/__pycache__": true,
+    "migrations/versions/__pycache__": true,
+    "tests/__pycache__": true
+  }
+}
