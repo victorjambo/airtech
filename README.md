@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/victorjambo/airtech.svg?branch=master)](https://travis-ci.org/victorjambo/airtech)
 [![Coverage Status](https://coveralls.io/repos/github/victorjambo/airtech/badge.svg?branch=master)](https://coveralls.io/github/victorjambo/airtech?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9131b4f3b4fa4917ad50559a97ea8e0d)](https://www.codacy.com/app/victorjambo/airtech?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=victorjambo/airtech&amp;utm_campaign=Badge_Grade)
 
 ## Airtech Flight Booking API
 
@@ -10,13 +9,13 @@ Flight Booking System
 Company Airtech has had their challenges using spreadsheets to manage their flight booking system. They are ready to automate their processes with an application and have reached out to you to build a flight booking application for the company.
 
 ## Key Application features
-  • log in
-  • upload passport photographs
-  • book tickets
-  • receive tickets as an email
-  • check the status of their flight
-  • make flight reservations
-  • purchase tickets
+>  • log in
+>  • upload passport photographs
+>  • book tickets
+>  • receive tickets as an email
+>  • check the status of their flight
+>  • make flight reservations
+>  • purchase tickets
 
 ## Development set up
 - Check that python 3 is installed:
