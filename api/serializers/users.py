@@ -13,6 +13,10 @@ class UserSchema(AuditableBaseSchema):
     email = fields.Email(**default_args())
     password = fields.String(**default_args(validate=password_validator))
 
+
+class UserSignupSchema(UserSchema):
+    """Auth signup Schema
+    """
     @post_load
     def validate_duplicate_email(self, data):
         """Validate if email is taken
