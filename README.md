@@ -124,3 +124,8 @@ To run your tests use
 ```bash
 $ pytest
 ```
+
+coverage
+```bash
+$ pytest --cov=api tests
+```
