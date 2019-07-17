@@ -13,7 +13,7 @@ from flask_admin.contrib.sqla import ModelView
 # Middlewares
 from api import api_blueprint
 from api.middlewares.base_validator import middleware_blueprint, ValidationError
-from config import config, Config
+from config import config
 from api.models.config.database import db
 
 config_name = getenv('FLASK_ENV', default='production')
@@ -39,7 +39,7 @@ def create_app(config=config[config_name]):
     db.init_app(app)
 
     # import all models
-    from api.models import User
+    from api.models import User, Flight
 
     admin.add_view(ModelView(User, db.session))
 
