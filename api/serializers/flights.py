@@ -1,10 +1,9 @@
-from marshmallow import (fields, post_load)
+"""flight schema module"""
 
-from api.models import User
+from marshmallow import fields
+
 from api.serializers.config.base_schemas import AuditableBaseSchema
 from api.utilities.helpers.schemas import default_args
-from api.utilities.validators.password_validator import password_validator
-from api.utilities.validators.validate_duplicate import validate_duplicate
 
 
 class FlightSchema(AuditableBaseSchema):
