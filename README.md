@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8b99c8cd77314d62ab0602dab2a4eddc)](https://app.codacy.com/app/victorjambo/airtech?utm_source=github.com&utm_medium=referral&utm_content=victorjambo/airtech&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/victorjambo/airtech.svg?branch=master)](https://travis-ci.org/victorjambo/airtech)
 [![Coverage Status](https://coveralls.io/repos/github/victorjambo/airtech/badge.svg?branch=master)](https://coveralls.io/github/victorjambo/airtech?branch=master)
 
