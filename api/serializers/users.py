@@ -11,6 +11,12 @@ class UserSchema(AuditableBaseSchema):
     """User model schema."""
     username = fields.String(**default_args())
     email = fields.Email(**default_args())
+    password = fields.String(**default_args())
+
+
+class UserSignupSchema(UserSchema):
+    """Auth signup Schema
+    """
     password = fields.String(**default_args(validate=password_validator))
 
     @post_load

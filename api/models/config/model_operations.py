@@ -2,6 +2,7 @@ import re
 
 from .database import db
 from api.middlewares.base_validator import ValidationError
+from api.utilities.messages import ERROR_MSG
 
 
 class ModelOperations(object):
@@ -28,7 +29,20 @@ class ModelOperations(object):
 
     @classmethod
     def query_(cls, filter_condition=None):
+        """TODO
+        """
         return cls.query.filter_by()
+
+    @classmethod
+    def get_username_or_404(cls, username):
+        """Get user by username or return 404
+        """
+        record = cls.query.filter_by(username=username).first()
+
+        if not record:
+            raise ValidationError({"message": ERROR_MSG["not_found"].format("User")}, 404)
+
+        return record
 
     @classmethod
     def get(cls, id):

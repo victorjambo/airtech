@@ -13,6 +13,7 @@ from api.utilities.constants import MIMETYPE, MIMETYPE_TEXT
 
 config_name = 'testing'
 os.environ['FLASK_ENV'] = config_name
+os.environ['SECRET'] = "testing-secret-key"
 BASE_URL = os.getenv('API_BASE_URL_V1')
 
 @pytest.yield_fixture(scope='session')

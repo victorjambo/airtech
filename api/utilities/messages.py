@@ -13,5 +13,7 @@ SUCCESS_MSG = {
 ERROR_MSG = {
   "required": "This field is required",
   "password": "Provide a Stronger Password",
-  "exist": "user with `{}` already exist"
+  "exist": "user with `{}` already exist",
+  "not_found": "{} not found",
+  "auth": "username and password do not match"
 }
