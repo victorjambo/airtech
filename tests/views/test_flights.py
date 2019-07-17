@@ -24,4 +24,18 @@ class TestFlightResource:
 
     assert response.status_code == 200
     assert response_json["status"] == "success"
+    assert isinstance(response_json["data"], list)
     assert response_json["message"] == SUCCESS_MSG["fetched"].format("Flights")
+
+  def test_single_flight_succeeds(self, client, init_db, auth_header, new_flight):
+    """Test successfully get flights
+    """
+
+    flight = new_flight.save()
+
+    response = client.get(f'{BASE_URL}/flights/{flight.id}', headers=auth_header)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == SUCCESS_MSG["fetched"].format("Flight")
