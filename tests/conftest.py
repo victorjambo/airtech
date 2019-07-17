@@ -5,9 +5,10 @@ from flask import current_app, request
 
 from config import config
 from main import create_app
-from api.models import User
+from api.models import User, Flight
 from api.models.config.database import db
 from tests.mock.users import user_data
+from tests.mock.flights import flight_data
 from api.utilities.constants import MIMETYPE, MIMETYPE_TEXT
 
 
@@ -69,3 +70,9 @@ def new_user(app):
   """new user
   """
   return User(**user_data["victor"])
+
+@pytest.fixture(scope="module")
+def new_flight(app):
+  """new Flight
+  """
+  return Flight(**flight_data[0])
