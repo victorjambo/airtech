@@ -41,7 +41,7 @@ def create_app(config=config[config_name]):
     # import all models
     from api.models import User, Flight
 
-    admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(Flight, db.session))
 
     # import views
     import api.views
