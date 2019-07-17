@@ -28,6 +28,7 @@ def initialize_errorhandlers(application):
 def create_app(config=config[config_name]):
     """Return app object given config object."""
     app = Flask(__name__)
+    app.secret_key = getenv('SECRET', default='secret-key')
     CORS(app)
     admin = Admin(app)
     app.config.from_object(config)
