@@ -7,6 +7,8 @@ from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_restplus import Api
 from flask_cors import CORS
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 # Middlewares
 from api import api_blueprint
@@ -27,6 +29,7 @@ def create_app(config=config[config_name]):
     """Return app object given config object."""
     app = Flask(__name__)
     CORS(app)
+    admin = Admin(app)
     app.config.from_object(config)
 
     # initialize error handlers
@@ -37,6 +40,8 @@ def create_app(config=config[config_name]):
 
     # import all models
     from api.models import User
+
+    admin.add_view(ModelView(User, db.session))
 
     # import views
     import api.views
