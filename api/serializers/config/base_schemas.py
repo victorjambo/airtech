@@ -9,16 +9,6 @@ class BaseSchema(Schema):
     id = fields.String(dump_only=True)
     deleted = fields.Boolean(dump_only=True)
 
-    def load_json_into_schema(self, data):
-        """Helper function to load raw json request data into schema"""
-        data, errors = self.loads(data)
-
-        if errors:
-            raise ValidationError(
-                dict(errors=errors, message='An error occurred'), 400)
-
-        return data
-
     def load_object_into_schema(self, data, partial=False):
         """Helper function to load python objects into schema"""
         data, errors = self.load(data, partial=partial)

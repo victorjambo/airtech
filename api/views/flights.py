@@ -8,10 +8,12 @@ from api.models import Flight
 from api.serializers.flights import FlightSchema
 from api.utilities.messages import SUCCESS_MSG
 from api.utilities.validators.validate_id import validate_id
+from api.middlewares.token_required import token_required
 
 
 @api.route("/flights")
 class FlightResource(Resource):
+  @token_required
   def get(self):
     """flights endpoint
     """
@@ -30,6 +32,7 @@ class FlightResource(Resource):
 @api.route("/flights/<string:flight_id>")
 class SingleFlightResource(Resource):
   @validate_id
+  @token_required
   def get(self, flight_id):
     """single flight endpoint
     """
