@@ -15,5 +15,6 @@ ERROR_MSG = {
   "password": "Provide a Stronger Password",
   "exist": "user with `{}` already exist",
   "not_found": "{} not found",
-  "auth": "username and password do not match"
+  "auth": "username and password do not match",
+  "invalid_id": "invalid id"
 }
