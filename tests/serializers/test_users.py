@@ -1,4 +1,4 @@
-"""Module for testing permission schema"""
+"""Module for testing User schema"""
 import pytest
 
 from api.serializers.users import UserSchema

@@ -1,7 +1,6 @@
 """Test User Model Module"""
 
 from api.models import User
-from tests.mock.users import user_data
 
 
 class TestUserModelClass:
