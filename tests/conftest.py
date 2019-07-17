@@ -10,6 +10,7 @@ from api.models.config.database import db
 from tests.mock.users import user_data
 from tests.mock.flights import flight_data
 from api.utilities.constants import MIMETYPE, MIMETYPE_TEXT
+from tests.helpers.generate_token import generate_token
 
 
 config_name = 'testing'
@@ -63,6 +64,16 @@ def auth_header():
   return {
     'Content-Type': MIMETYPE,
     'Accept': MIMETYPE
+  }
+
+@pytest.fixture(scope='module')
+def auth_header_token():
+  """auth header with token
+  """
+  return {
+    'Content-Type': MIMETYPE,
+    'Accept': MIMETYPE,
+    'Authorization': generate_token()
   }
 
 @pytest.fixture(scope="module")
