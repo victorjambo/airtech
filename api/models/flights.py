@@ -1,5 +1,9 @@
+from sqlalchemy.orm import column_property
+from sqlalchemy import select, func
+
 from .config.database import db
 from .config.auditable_model import AuditableBaseModel
+from api.models.tickets import Ticket
 
 class Flight(AuditableBaseModel):
     """Class Flight model"""

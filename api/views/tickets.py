@@ -19,9 +19,10 @@ class TicketResource(Resource):
   def get(self, flight_id):
     """Tickets endpoint
     """
+
     Flight.get_or_404(flight_id)
 
-    tickets = Ticket.query_()
+    tickets = Ticket.query_(request.args)
 
     ticket_schema = TicketSchema(many=True)
 

@@ -3,6 +3,7 @@ import re
 from .database import db
 from api.middlewares.base_validator import ValidationError
 from api.utilities.messages import ERROR_MSG
+from api.utilities.filters import Filters
 
 
 class ModelOperations(object):
@@ -29,8 +30,12 @@ class ModelOperations(object):
 
     @classmethod
     def query_(cls, filter_condition=None):
-        """TODO
+        """Dynamic filter
         """
+        if filter_condition:
+            filter = Filters(cls)
+            return filter.filter_query(filter_condition)
+
         return cls.query.filter_by()
 
     @classmethod
