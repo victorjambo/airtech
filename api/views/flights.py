@@ -31,8 +31,8 @@ class FlightResource(Resource):
 
 @api.route("/flights/<string:flight_id>")
 class SingleFlightResource(Resource):
-  @validate_id
   @token_required
+  @validate_id
   def get(self, flight_id):
     """single flight endpoint
     """

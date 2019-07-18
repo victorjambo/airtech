@@ -6,6 +6,11 @@ class Flight(AuditableBaseModel):
     __tablename__ = 'flights'
 
     name = db.Column(db.String(), nullable=False)
+    tickets = db.relationship(
+        'Ticket',
+        backref='bookings',
+        cascade='all, delete-orphan'
+    )
 
     def __repr__(self):
         return f'<Flight {self.name}>'

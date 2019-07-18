@@ -10,7 +10,7 @@ class TestFlightSchema:
   """
 
   def test_flight_schema_with_valid_data_succeeds(self, init_db):
-    """Should pass when valid permission type is supplied
+    """Should pass when valid data is supplied
     """
     flight_schema = FlightSchema()
     data = flight_schema.load_object_into_schema(flight_data[-1])

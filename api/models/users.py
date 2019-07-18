@@ -8,6 +8,11 @@ class User(AuditableBaseModel):
     username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
+    tickets = db.relationship(
+        'Ticket',
+        backref='tickets',
+        cascade='all, delete-orphan'
+    )
 
     def __repr__(self):
         return f'<User {self.username}>'
