@@ -9,6 +9,7 @@ from flask_restplus import Api
 from flask_cors import CORS
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_mail import Mail
 
 # Middlewares
 from api import api_blueprint
@@ -18,6 +19,7 @@ from api.models.config.database import db
 
 config_name = getenv('FLASK_ENV', default='production')
 api = Api(api_blueprint, doc=False)
+mail = Mail()
 
 def initialize_errorhandlers(application):
     ''' Initialize error handlers '''
@@ -32,6 +34,8 @@ def create_app(config=config[config_name]):
     CORS(app)
     admin = Admin(app)
     app.config.from_object(config)
+
+    mail.init_app(app)
 
     # initialize error handlers
     initialize_errorhandlers(app)
