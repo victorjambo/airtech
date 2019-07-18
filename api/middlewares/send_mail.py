@@ -2,7 +2,9 @@ from os import getenv
 from flask_mail import Message
 from flask import jsonify, render_template
 from main import mail
+from main import celery_app
 
+@celery_app.task(name='send_email')
 def send_email(ticket):
   """Send email
   """

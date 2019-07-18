@@ -25,7 +25,7 @@ mail = Mail()
 
 # Celery object and configures it with the broker (redis).
 # __name__ is the app.name, which will be initialized later
-TASK_LIST = ['celery_src.tasks']
+TASK_LIST = ['celery_src.tasks', 'api.middlewares.send_mail']
 celery_app = Celery(
     __name__, broker=Config.CELERY_BROKER_URL, include=TASK_LIST)
 
