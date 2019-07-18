@@ -106,8 +106,7 @@ Manually Test the endpoints with postman
 
 **EndPoint** | **Functionality**
 --- | ---
-POST `/api/v1/users` | Creates a user account
-GET `/api/v1/users` | List users
+POST `/api/v1/auth/signup` | Creates a user account
 PUT `/api/v1/users` | Update Password or username
 POST  `/api/v1/flights` | Creates a flight
 PUT `/api/v1/flights/<flight_id>` | Updates a flight
@@ -116,6 +115,34 @@ GET  `/api/v1/flights` | List flights
 GET  `/api/v1/flights/<flight_id>` | Get a flight
 POST  `/api/v1/flights/<flight_id>/tickets` | Create ticket on a flight
 GET  `/api/v1/flights/<flight_id>/tickets` | Get tickets for a flight
+
+
+- **Running Redis server**
+    - You can simply run the command `bash redis.sh` in the root project directory, this will install redis for you (if not already installed) and also run/start the redis server for the first time on your local machine.
+
+##  Running Celery worker
+
+  - Regardless of the setup you may be using, please endevour to update the `.env` file with the following keys and the appropriate values(`redis_server_url`):
+       ```
+        CELERY_BROKER_URL=<Your_Redis_Server_URL>
+        CELERY_RESULT_BACKEND=<Your_Redis_Server_URL>
+      ```
+  - Add these to your `.env` file:
+    ```
+      CELERY_BROKER_URL=redis://localhost:6379/0
+      CELERY_RESULT_BACKEND=redis://localhost:6379/0
+    ```
+ The updates above must be done before you do `flask run`, depending on your app setup.
+
+
+   *If you are not running the app with docker/docker-compose and would like to restart **redis/celery***
+   - To run redis after it has been stopped run `redis-server`
+
+   - In a new terminal tab run the Celery Message Worker with:
+
+        ```
+          celery worker -A celery_init.celery_app --loglevel=info
+        ```
 
 
 ## Testing

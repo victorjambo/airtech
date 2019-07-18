@@ -15,6 +15,12 @@ class Config(object):
     MAIL_PASSWORD = getenv('EMAIL_HOST_PASSWORD')
     MAIL_SUPPRESS_SEND = True
 
+    # Celery configuration
+    CELERY_BROKER_URL = getenv(
+        'CELERY_BROKER_URL', default='redis://localhost:6379/0')
+    CELERY_RESULT_BACKEND = getenv(
+        'CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
+
 
 class ProductionConfig(Config):
     DATABASE_URI = getenv('DATABASE_URI')
