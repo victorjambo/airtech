@@ -6,3 +6,5 @@ virtualenv
 **.pyc
 
 .coverage
+celerybeat-schedule
+celerybeat.pid

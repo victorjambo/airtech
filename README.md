@@ -144,6 +144,14 @@ GET  `/api/v1/flights/<flight_id>/tickets` | Get tickets for a flight
           celery worker -A celery_init.celery_app --loglevel=info
         ```
 
+##  Running Celery beat
+  - After setting up the Celery worker, you need to start the `celery-beat` used to to trigger `celery` scheduled tasks
+
+  - In a new terminal tab start `celery-beat` with:
+
+    ```
+      celery -A celery_src.celery_beat beat --loglevel=info
+    ```
 
 ## Testing
 
