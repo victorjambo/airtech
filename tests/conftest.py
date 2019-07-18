@@ -5,10 +5,11 @@ from flask import current_app, request
 
 from config import config
 from main import create_app
-from api.models import User, Flight
+from api.models import User, Flight, Ticket
 from api.models.config.database import db
 from tests.mock.users import user_data
 from tests.mock.flights import flight_data
+from tests.mock.tickets import ticket_data
 from api.utilities.constants import MIMETYPE, MIMETYPE_TEXT
 from tests.helpers.generate_token import generate_token
 
@@ -87,3 +88,9 @@ def new_flight(app):
   """new Flight
   """
   return Flight(**flight_data[0])
+
+@pytest.fixture(scope="module")
+def new_ticket(app):
+  """new Ticket
+  """
+  return Ticket(**ticket_data[0])

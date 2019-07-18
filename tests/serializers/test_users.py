@@ -10,7 +10,7 @@ class TestUserSchema:
   """
 
   def test_user_schema_with_valid_data_succeeds(self, init_db):
-    """Should pass when valid permission type is supplied
+    """Should pass when valid data is supplied
     """
     user_schema = UserSchema()
     data = user_schema.load_object_into_schema(user_data["victor"])
