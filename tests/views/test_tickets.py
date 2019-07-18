@@ -4,11 +4,9 @@ from os import getenv
 
 from flask import json
 
-from api.models import User
-from tests.mock.users import user_data
-from tests.helpers.generate_token import generate_token
+from tests.mock.tickets import ticket_data
 from api.utilities.constants import CHARSET
-from api.utilities.messages import SUCCESS_MSG, ERROR_MSG, jwt_errors
+from api.utilities.messages import SUCCESS_MSG, ERROR_MSG
 
 BASE_URL = getenv('API_BASE_URL_V1', default="/api/v1")
 
@@ -64,3 +62,16 @@ class TestTicketResource:
     assert response.status_code == 400
     assert response_json["status"] == "error"
     assert response_json["message"] == ERROR_MSG["invalid_id"]
+
+  def test_create_ticket_with_valid_data_succeeds(self, client, init_db, auth_header_token, new_flight):
+    """Test successfully ticket
+    """
+    flight = new_flight.save()
+
+    data = json.dumps(ticket_data[-1])
+    response = client.post(f'{BASE_URL}/flights/{flight.id}/tickets', headers=auth_header_token, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 201
+    assert response_json["status"] == "success"
+    assert response_json["message"] == SUCCESS_MSG["created"].format("Ticket")
