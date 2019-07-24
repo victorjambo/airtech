@@ -13,7 +13,8 @@ class Flight(AuditableBaseModel):
     tickets = db.relationship(
         'Ticket',
         backref='bookings',
-        cascade='all, delete-orphan'
+        cascade='all, delete-orphan',
+        lazy='joined'
     )
 
     def __repr__(self):
