@@ -75,3 +75,16 @@ class TestTicketResource:
     assert response.status_code == 201
     assert response_json["status"] == "success"
     assert response_json["message"] == SUCCESS_MSG["created"].format("Ticket")
+
+  def test_list_tickets_succeeds(self, client, init_db, auth_header_token, new_flight):
+    """Test successfully get Ticket
+    """
+    flight = new_flight.save()
+
+    response = client.get(f'{BASE_URL}/flights/{flight.id}/tickets?seatNumber=512C&travelDate=2019-06-24', headers=auth_header_token)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert isinstance(response_json["data"], list)
+    assert response_json["message"] == SUCCESS_MSG["fetched"].format("Tickets")
