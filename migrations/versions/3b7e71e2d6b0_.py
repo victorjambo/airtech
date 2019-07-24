@@ -24,7 +24,7 @@ def upgrade():
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('seat_number', sa.String(), nullable=False),
     sa.Column('destination', sa.String(), nullable=False),
-    sa.Column('travel_date', sa.String(), nullable=False),
+    sa.Column('travel_date', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.String(), nullable=True),
     sa.Column('flight_id', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['flight_id'], ['flights.id'], ),

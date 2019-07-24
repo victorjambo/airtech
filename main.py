@@ -10,16 +10,24 @@ from flask_cors import CORS
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
+from celery import Celery
+
 
 # Middlewares
 from api import api_blueprint
 from api.middlewares.base_validator import middleware_blueprint, ValidationError
-from config import config
+from config import config, Config
 from api.models.config.database import db
 
 config_name = getenv('FLASK_ENV', default='production')
 api = Api(api_blueprint, doc=False)
 mail = Mail()
+
+# Celery object and configures it with the broker (redis).
+# __name__ is the app.name, which will be initialized later
+TASK_LIST = ['celery_src.tasks', 'api.middlewares.send_mail']
+celery_app = Celery(
+    __name__, broker=Config.CELERY_BROKER_URL, include=TASK_LIST)
 
 def initialize_errorhandlers(application):
     ''' Initialize error handlers '''
@@ -34,6 +42,7 @@ def create_app(config=config[config_name]):
     CORS(app)
     admin = Admin(app)
     app.config.from_object(config)
+    celery_app.conf.update(app.config)
 
     mail.init_app(app)
 

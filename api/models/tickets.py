@@ -7,7 +7,7 @@ class Ticket(AuditableBaseModel):
 
   seat_number = db.Column(db.String(), nullable=False)
   destination = db.Column(db.String(), nullable=False)
-  travel_date = db.Column(db.String(), nullable=False)
+  travel_date = db.Column(db.DateTime(), nullable=False)
 
   user_id = db.Column(db.String, db.ForeignKey('users.id'))
   flight_id = db.Column(db.String, db.ForeignKey('flights.id'))
