@@ -1,16 +1,19 @@
 """Module for users resource"""
-
+import os
 from main import api
 
 from flask_restplus import Resource
 from flask import request
 from passlib.hash import sha256_crypt
+from random import randint
 
 from api.models import User
 from api.serializers.users import UserSchema, UserSignupSchema
 from api.utilities.messages import SUCCESS_MSG
 from api.utilities.generate_token import generate_token
 from api.middlewares.base_validator import ValidationError
+from api.utilities.helpers.cloudinary import upload_image
+from api.middlewares.token_required import token_required
 
 
 @api.route("/auth/signup")
@@ -62,3 +65,43 @@ class AuthLoginResource(Resource):
             "message": SUCCESS_MSG["login"],
             "token": token
         }, 200
+
+@api.route("/users/upload")
+class UserUploadResource(Resource):
+    @token_required
+    def post(self):
+        """upload image endpoint
+        """
+        ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif']
+        user_id = request.decoded_token["data"]["id"]
+        user = User.get_or_404(user_id)
+
+        image = request.files.get('image', default=False)
+        if not image:
+            return {
+                "status": "error",
+                "message": "Image is required",
+            }, 400
+
+        image_name = '{0}_v{1}'.format(image.name.split('.')[0], randint(0, 100))
+        extension = image.filename.split('.')[-1]
+        if extension not in ALLOWED_TYPES:
+            return {
+                "status": "error",
+                "message": "File type not supported, type must be either 'jpg', 'jpeg', 'png', 'gif'",
+            }, 400
+    
+        res = upload_image(image, image_name)
+
+        user.update_(**{
+            "image": res["url"]
+        })
+
+        user_schema = UserSchema(only=["username", "email", "image"])
+        data = user_schema.dump(user).data
+
+        return {
+            "status": "success",
+            "message": "Image uploaded",
+            "data": "data"
+        }, 201

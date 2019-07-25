@@ -8,6 +8,8 @@ class User(AuditableBaseModel):
     username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
+    image = db.Column(db.String(255), nullable=True)
+
     tickets = db.relationship(
         'Ticket',
         backref='tickets',

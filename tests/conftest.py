@@ -94,3 +94,10 @@ def new_ticket(app):
   """new Ticket
   """
   return Ticket(**ticket_data[0])
+
+@pytest.fixture(scope="module")
+def cloudinary_mock_response():
+  return {
+    "public_id": "public-id",
+    "url": "http://hello.com/here"
+  }

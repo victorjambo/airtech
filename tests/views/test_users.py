@@ -1,14 +1,19 @@
 """Module of tests for user endpoints"""
-from os import getenv
+import os
 
 from flask import json
+from unittest.mock import Mock
+from cloudinary import uploader
+from tempfile import TemporaryFile
+from io import BytesIO
+from werkzeug import FileStorage
 
 from api.models import User
 from tests.mock.users import user_data
 from api.utilities.constants import CHARSET
 from api.utilities.messages import SUCCESS_MSG, ERROR_MSG
 
-BASE_URL = getenv('API_BASE_URL_V1', default="/api/v1")
+BASE_URL = os.getenv('API_BASE_URL_V1', default="/api/v1")
 
 
 class TestAuthSignupResource:
@@ -121,3 +126,25 @@ class TestAuthLoginResource:
     assert response.status_code == 401
     assert response_json["status"] == "error"
     assert response_json["message"] == "username and password do not match"  # TODO
+
+
+class TestUserUploadResource:
+  """Test UserUploadResource POST endpoint
+  """
+
+  def test_upload_image_with_valid_data_succeeds(self, client, init_db, auth_header_token, cloudinary_mock_response):
+    """test
+    """
+
+    uploader.upload = Mock(side_effect=lambda *args: cloudinary_mock_response)
+
+    filehandle = FileStorage(stream=BytesIO(b'avatar.png'))
+    data = {'image': open('tests/views/avatar.png', 'rb')}
+
+    response = client.post(
+      f'{BASE_URL}/users/upload',
+      data=data,
+      headers=auth_header_token,
+      content_type='multipart/form-data')
+
+    print(response.data)
