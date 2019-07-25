@@ -18,11 +18,45 @@ Company Airtech has had their challenges using spreadsheets to manage their flig
 > - make flight reservations
 > - purchase tickets
 
+## Development setup with `Makefile`
+- Ensure you have `python3.6`, `postgres`, and `virtualenv` installed.
+- First you need to create virtualenv, run the command below;
+    ```bash
+    make venv
+    ```
+- Activate virtualenv with `source virtualenv/bin/activate`
+- Make a copy of `.env.sample` and rename it to `.env`
+- Source environment variables with `source .env`
+- To Install dependancies run
+    ```bash
+    make pip
+    ```
+- Create a postgres database `airtech_development` with;
+    ```bash
+    make database
+    ```
+    - this will create db and run migrations
+- Finally, start the app with
+    ```bash
+    make start
+    ```
+- Visit http://127.0.0.1:8000 to access the app
+
+- Setup tests env with
+    ```bash
+    make db-test
+    ```
+- Run test with
+    ```bash
+    pytest
+    ```
+    - run test with coverage `pytest --cov=api tests`
+
 ## Development set up
 - Check that python 3 is installed:
     ```
     python --v
-    >> Python 3.7
+    >> Python 3.6
     ```
 
 - Install virtualenv:
@@ -43,7 +77,7 @@ Company Airtech has had their challenges using spreadsheets to manage their flig
 
     ```
 
-- Clone the airtech-api repo and cd into it:
+- Clone the airtech repo and cd into it:
     ```
     git clone https://github.com/victorjambo/airtech
 
