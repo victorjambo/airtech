@@ -16,7 +16,9 @@ ERROR_MSG = {
   "exist": "user with `{}` already exist",
   "not_found": "{} not found",
   "auth": "username and password do not match",
-  "invalid_id": "invalid id"
+  "invalid_id": "invalid id",
+  "invalid_date": "invalid date time format, example of valid date `2019-06-24` or `2019-07-28 10:15:20`",
+  "past_date": "Cannot create ticket with date older than today"
 }
 
 jwt_errors = {
