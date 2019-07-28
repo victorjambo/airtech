@@ -135,20 +135,20 @@ Company Airtech has had their challenges using spreadsheets to manage their flig
 
 Manually Test the endpoints with postman
 
-<!-- TODO: Change url to hosted documentation -->
-[![Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/apps)
+[![Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/5205892/SVYkvLfQ?version=latest)
 
 **EndPoint** | **Functionality**
 --- | ---
 POST `/api/v1/auth/signup` | Creates a user account
-PUT `/api/v1/users` | Update Password or username
-POST  `/api/v1/flights` | Creates a flight
-PUT `/api/v1/flights/<flight_id>` | Updates a flight
-DELETE `/api/v1/flight/<flight_id>` | Remove a flight
-GET  `/api/v1/flights` | List flights
-GET  `/api/v1/flights/<flight_id>` | Get a flight
-POST  `/api/v1/flights/<flight_id>/tickets` | Create ticket on a flight
-GET  `/api/v1/flights/<flight_id>/tickets` | Get tickets for a flight
+POST `/api/v1/auth/login` | login user
+POST `/api/v1/users/upload` | upload image
+DELETE `/api/v1/users/upload` | delete image
+GET  `/api/v1/flights` | Gets all flights
+GET `/api/v1/flights/{{flight-id}}` | Gets a single flight
+POST  `/api/v1/flights/{{flight-id}}/tickets` | Create ticket on a flight
+GET  `/api/v1/flights/{{flight-id}}/tickets` | Get tickets for a flight
+GET `/api/v1/tickets/{{ticket-id}}` | Get single ticket
+GET `/admin` | Admin Dashboard
 
 
 - **Running Redis server**
