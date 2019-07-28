@@ -15,7 +15,8 @@ def generate_token(user, user_data):
   candidate_password = user_data["password"]
 
   if sha256_crypt.verify(candidate_password, password):
-    exp_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+    min = 999 if os.getenv("FLASK_ENV") == "development" else 30
+    exp_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=min)
     token = jwt.encode(
       {
         "data": {

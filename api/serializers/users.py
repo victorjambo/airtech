@@ -12,6 +12,7 @@ class UserSchema(AuditableBaseSchema):
     username = fields.String(**default_args())
     email = fields.Email(**default_args())
     password = fields.String(**default_args())
+    image = fields.Dict()
 
 
 class UserSignupSchema(UserSchema):

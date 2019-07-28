@@ -1,11 +1,10 @@
 """Module of tests for user endpoints"""
 import os
 
+import cloudinary
 from flask import json
 from unittest.mock import Mock
-from cloudinary import uploader
 from tempfile import TemporaryFile
-from io import BytesIO
 from werkzeug import FileStorage
 
 from api.models import User
@@ -132,19 +131,96 @@ class TestUserUploadResource:
   """Test UserUploadResource POST endpoint
   """
 
-  def test_upload_image_with_valid_data_succeeds(self, client, init_db, auth_header_token, cloudinary_mock_response):
-    """test
+  def test_upload_image_succeeds(self, client, init_db, auth_header_token):
+    """test upload image
     """
+    mock_response = {
+      'public_id': 'public-id',
+      'url': 'http://test.com/test'
+    }
+    cloudinary.uploader.upload = Mock(side_effect=lambda *args: mock_response)
 
-    uploader.upload = Mock(side_effect=lambda *args: cloudinary_mock_response)
-
-    filehandle = FileStorage(stream=BytesIO(b'avatar.png'))
-    data = {'image': open('tests/views/avatar.png', 'rb')}
+    data = dict(image=open('tests/mock/avatar.png', 'rb'))
 
     response = client.post(
       f'{BASE_URL}/users/upload',
+      headers=auth_header_token,
       data=data,
+      content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == "Image uploaded"
+
+  def test_update_image_succeeds(self, client, init_db, auth_header_token):
+    """test upload image
+    """
+    mock_response = {
+      'public_id': 'public-id',
+      'url': 'http://test.com/test'
+    }
+    cloudinary.uploader.upload = Mock(side_effect=lambda *args: mock_response)
+    cloudinary.uploader.destroy = Mock(side_effect=lambda *args: mock_response)
+
+    data = dict(image=open('tests/mock/avatar.png', 'rb'))
+
+    response = client.post(
+      f'{BASE_URL}/users/upload',
+      headers=auth_header_token,
+      data=data,
+      content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == "Image uploaded"
+
+  def test_delete_image_succeeds(self, client, init_db, auth_header_token):
+    """test delete upload image
+    """
+    mock_response = {'result': 'ok'}
+    cloudinary.uploader.destroy = Mock(side_effect=lambda *args: mock_response)
+
+    response = client.delete(
+      f'{BASE_URL}/users/upload',
       headers=auth_header_token,
       content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
 
-    print(response.data)
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == "Image deleted"
+
+  def test_upload_non_image_file_fails(self, client, init_db, auth_header_token):
+    """test upload image fails
+    """
+    data = dict(image=open('tests/mock/upload.txt', 'rb'))
+
+    response = client.post(
+      f'{BASE_URL}/users/upload',
+      headers=auth_header_token,
+      data=data,
+      content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 400
+    assert response_json["status"] == "error"
+    assert response_json["message"] == "File type not supported, type must be either 'jpg', 'jpeg', 'png', 'gif'"
+
+  def test_upload_no_image_fails(self, client, init_db, auth_header_token):
+    """test upload image fails
+    """
+    data = dict(image="")
+
+    response = client.post(
+      f'{BASE_URL}/users/upload',
+      headers=auth_header_token,
+      data=data,
+      content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 400
+    assert response_json["status"] == "error"
+    assert response_json["message"] == "Image is required"
+
