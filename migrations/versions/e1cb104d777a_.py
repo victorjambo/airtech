@@ -7,6 +7,7 @@ Create Date: 2019-07-15 01:02:22.113958
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 # revision identifiers, used by Alembic.
@@ -27,7 +28,8 @@ def upgrade():
     sa.Column('password', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('username')
+    sa.UniqueConstraint('username'),
+    sa.Column('image', postgresql.JSON(astext_type=sa.Text()), nullable=True)
     )
     # ### end Alembic commands ###
 
