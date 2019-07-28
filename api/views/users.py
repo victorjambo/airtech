@@ -87,7 +87,6 @@ class UserUploadResource(Resource, Cloud):
                 "message": "Image is required",
             }, 400
 
-        image_name = '{0}_v{1}'.format(image.name.split('.')[0], randint(0, 100))
         extension = image.filename.split('.')[-1]
         if extension not in ALLOWED_TYPES:
             return {
@@ -95,7 +94,7 @@ class UserUploadResource(Resource, Cloud):
                 "message": "File type not supported, type must be either 'jpg', 'jpeg', 'png', 'gif'",
             }, 400
 
-        res = self.upload_image(image, image_name)
+        res = self.upload_image(image)
 
         user.update_(**{
             "image": {

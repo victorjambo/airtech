@@ -13,7 +13,11 @@ def generate_token(exp=None):
     """
 
     secret_key = getenv('SECRET')
-    user = User(**user_data["victor"])
+
+    user = User.query.filter_by(username="victor").first()
+    if not user:
+      user = User(**user_data["victor"]).save()
+
     user_data["victor"]["id"] = user.id
     payload = {'data': user_data["victor"]}
     payload.__setitem__('exp', exp) if exp is not None else ''
