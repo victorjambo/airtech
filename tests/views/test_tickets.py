@@ -88,3 +88,37 @@ class TestTicketResource:
     assert response_json["status"] == "success"
     assert isinstance(response_json["data"], list)
     assert response_json["message"] == SUCCESS_MSG["fetched"].format("Tickets")
+
+  def test_create_ticket_with_invalid_date_fails(self, client, init_db, auth_header_token, new_flight):
+    """Test fails ticket
+    """
+    flight = new_flight.save()
+
+    data = json.dumps({
+      "seatNumber": "512E",
+      "destination": "New York",
+      "travelDate": "invalid"
+    })
+    response = client.post(f'{BASE_URL}/flights/{flight.id}/tickets', headers=auth_header_token, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 400
+    assert response_json["status"] == "error"
+    assert response_json["errors"]["travelDate"][0] == ERROR_MSG["invalid_date"]
+
+  def test_create_ticket_with_past_date_fails(self, client, init_db, auth_header_token, new_flight):
+    """Test fails ticket
+    """
+    flight = new_flight.save()
+
+    data = json.dumps({
+      "seatNumber": "512E",
+      "destination": "New York",
+      "travelDate": "1990-01-01"
+    })
+    response = client.post(f'{BASE_URL}/flights/{flight.id}/tickets', headers=auth_header_token, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 400
+    assert response_json["status"] == "error"
+    assert response_json["errors"]["travelDate"][0] == ERROR_MSG["past_date"]
