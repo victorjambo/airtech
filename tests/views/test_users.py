@@ -153,6 +153,29 @@ class TestUserUploadResource:
     assert response_json["status"] == "success"
     assert response_json["message"] == "Image uploaded"
 
+  def test_update_image_succeeds(self, client, init_db, auth_header_token):
+    """test upload image
+    """
+    mock_response = {
+      'public_id': 'public-id',
+      'url': 'http://test.com/test'
+    }
+    cloudinary.uploader.upload = Mock(side_effect=lambda *args: mock_response)
+    cloudinary.uploader.destroy = Mock(side_effect=lambda *args: mock_response)
+
+    data = dict(image=open('tests/mock/avatar.png', 'rb'))
+
+    response = client.post(
+      f'{BASE_URL}/users/upload',
+      headers=auth_header_token,
+      data=data,
+      content_type='multipart/form-data')
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 200
+    assert response_json["status"] == "success"
+    assert response_json["message"] == "Image uploaded"
+
   def test_delete_image_succeeds(self, client, init_db, auth_header_token):
     """test delete upload image
     """
