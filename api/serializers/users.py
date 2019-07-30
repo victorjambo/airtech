@@ -5,13 +5,14 @@ from api.serializers.config.base_schemas import AuditableBaseSchema
 from api.utilities.helpers.schemas import default_args
 from api.utilities.validators.password_validator import password_validator
 from api.utilities.validators.validate_duplicate import validate_duplicate
+from api.utilities.validators.validate_fields import validator_field
 
 
 class UserSchema(AuditableBaseSchema):
     """User model schema."""
-    username = fields.String(**default_args())
-    email = fields.Email(**default_args())
-    password = fields.String(**default_args())
+    username = fields.String(**default_args(validate=validator_field))
+    email = fields.Email(**default_args(validate=validator_field))
+    password = fields.String(**default_args(validate=validator_field))
     image = fields.Dict()
 
 

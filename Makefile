@@ -53,6 +53,10 @@ db-test:
 	@ chmod +x scripts/utilities.sh && scripts/utilities.sh create_test_db
 	@ echo " "
 
+locust:
+	${SUCCESS} "Starting locust"
+	@ locust --host=http://127.0.0.1:8000
+
 
 # COLORS
 GREEN  := $(shell tput -Txterm setaf 2)
