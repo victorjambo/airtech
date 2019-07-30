@@ -111,6 +111,22 @@ class TestAuthLoginResource:
     assert response_json["status"] == "error"
     assert response_json["message"] == ERROR_MSG["not_found"].format("User")
 
+  def test_login_with_empty_username_fails(self, client, init_db, auth_header):
+    """Test fails login username
+    """
+
+    data = json.dumps({
+      "username": "",
+      "password": ""
+    })
+    response = client.post(f'{BASE_URL}/auth/login', headers=auth_header, data=data)
+    response_json = json.loads(response.data.decode(CHARSET))
+
+    assert response.status_code == 400
+    assert response_json["status"] == "error"
+    assert response_json["errors"]["username"] == [ERROR_MSG["required"]]
+    assert response_json["errors"]["password"] == [ERROR_MSG["required"]]
+
   def test_login_with_wrong_password_fails(self, client, init_db, auth_header):
     """Test fails login password
     """

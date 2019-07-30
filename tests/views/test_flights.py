@@ -109,7 +109,6 @@ class TestFlightJWTFailResource:
 
     response = client.get(f'{BASE_URL}/flights', headers=auth_header)
     response_json = json.loads(response.data.decode(CHARSET))
-    print(">>>>", response_json)
 
     assert response.status_code == 401
     assert response_json["status"] == "error"
