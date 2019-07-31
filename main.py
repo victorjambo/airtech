@@ -11,7 +11,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from celery import Celery
-
+from flask_caching import Cache
 
 # Middlewares
 from api import api_blueprint
@@ -22,6 +22,7 @@ from api.models.config.database import db
 config_name = getenv('FLASK_ENV', default='production')
 api = Api(api_blueprint, doc=False)
 mail = Mail()
+cache = Cache()
 
 # Celery object and configures it with the broker (redis).
 # __name__ is the app.name, which will be initialized later
@@ -45,6 +46,7 @@ def create_app(config=config[config_name]):
     celery_app.conf.update(app.config)
 
     mail.init_app(app)
+    cache.init_app(app)
 
     # initialize error handlers
     initialize_errorhandlers(app)
@@ -53,7 +55,7 @@ def create_app(config=config[config_name]):
     db.init_app(app)
 
     # import all models
-    from api.models import User, Flight
+    from api.models import User, Flight, Ticket
 
     admin.add_view(ModelView(Flight, db.session))
 

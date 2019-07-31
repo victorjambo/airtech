@@ -1,9 +1,10 @@
 """Module for tickets resource"""
-
+import os
 from main import api
 
 from flask_restplus import Resource
 from flask import request
+from main import cache
 
 from api.models import Ticket, Flight
 from api.serializers.tickets import TicketSchema
@@ -11,11 +12,13 @@ from api.utilities.messages import SUCCESS_MSG
 from api.utilities.validators.validate_id import validate_id
 from api.middlewares.token_required import token_required
 
+FLASK_ENV = os.getenv('FLASK_ENV', default='development')
 
 @api.route("/flights/<string:flight_id>/tickets")
 class TicketResource(Resource):
   @token_required
   @validate_id
+  @cache.cached(timeout=50, key_prefix='tickets')
   def get(self, flight_id):
     """Tickets endpoint
     """
@@ -64,8 +67,13 @@ class SingleTicketResource(Resource):
   def get(self, ticket_id):
     """single Ticket endpoint
     """
+    mapper = {
+      'testing': self.get_ticket_testing,
+      'development': self.get_ticket,
+      'production': self.get_ticket
+    }
 
-    ticket = Ticket.get_or_404(ticket_id)
+    ticket = mapper[FLASK_ENV](ticket_id)
 
     ticket_schema = TicketSchema()
 
@@ -74,3 +82,10 @@ class SingleTicketResource(Resource):
       "message": SUCCESS_MSG["fetched"].format("Ticket"),
       "data": ticket_schema.dump(ticket).data
     }, 200
+
+  @cache.cached(timeout=50, key_prefix='get_ticket')
+  def get_ticket(self, ticket_id):
+    return Ticket.get_or_404(ticket_id)
+
+  def get_ticket_testing(self, ticket_id):
+    return Ticket.get_or_404(ticket_id)

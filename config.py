@@ -21,6 +21,12 @@ class Config(object):
     CELERY_RESULT_BACKEND = getenv(
         'CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
 
+    CACHE_TYPE = 'redis'
+    CACHE_KEY_PREFIX = 'fcache'
+    CACHE_REDIS_HOST = getenv('CACHE_REDIS_HOST', default='localhost')
+    CACHE_REDIS_PORT = getenv('CACHE_REDIS_PORT', default='6379')
+    CACHE_REDIS_URL = getenv('CACHE_REDIS_URL', default='redis://localhost:6379')
+
 
 class ProductionConfig(Config):
     DATABASE_URI = getenv('DATABASE_URI')
@@ -32,6 +38,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    CACHE_TYPE = 'simple'
     TESTING = True
     SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URI',
                                      default='postgresql://localhost/airtech_test')
