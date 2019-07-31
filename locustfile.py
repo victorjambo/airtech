@@ -57,6 +57,10 @@ class UserBehaviour(TaskSet):
       headers=self.headers,
       name="List Tickets")
     ticket_response_json = json.loads(ticket_response.content.decode(CHARSET))
+    if len(ticket_response_json["data"]) == 0:
+      print(">>>>>", "Create a ticket", "<<<<<")
+      runners.locust_runner.quit()
+
     self.ticket_id = ticket_response_json["data"][0]["id"]
 
   @task(1)

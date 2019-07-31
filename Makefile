@@ -54,7 +54,7 @@ db-test:
 	@ echo " "
 
 locust:
-	${SUCCESS} "Starting locust"
+	${SUCCESS} "Starting locust at http://127.0.0.1:8089/"
 	@ locust --host=http://127.0.0.1:8000
 
 

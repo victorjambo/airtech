@@ -7,6 +7,7 @@ from flask import request
 from passlib.hash import sha256_crypt
 from random import randint
 from sqlalchemy import sql
+from main import cache
 
 from api.models import User
 from api.serializers.users import UserSchema, UserSignupSchema
@@ -15,6 +16,8 @@ from api.utilities.generate_token import generate_token
 from api.middlewares.base_validator import ValidationError
 from api.utilities.helpers.cloudinary import Cloud
 from api.middlewares.token_required import token_required
+
+FLASK_ENV = os.getenv('FLASK_ENV', default='development')
 
 
 @api.route("/auth/signup")
@@ -48,13 +51,18 @@ class AuthLoginResource(Resource):
     def post(self):
         """login endpoint
         """
+        mapper = {
+            'testing': self.get_user_testing,
+            'development': self.get_user,
+            'production': self.get_user
+        }
 
         request_data = request.get_json()
 
         user_schema = UserSchema(only=["username", "password"])
         user_data = user_schema.load_object_into_schema(request_data)
 
-        user = User.get_username_or_404(user_data["username"])
+        user = mapper[FLASK_ENV](user_data["username"])
 
         token, error = generate_token(user, user_data)
 
@@ -66,6 +74,13 @@ class AuthLoginResource(Resource):
             "message": SUCCESS_MSG["login"],
             "token": token
         }, 200
+
+    @cache.cached(timeout=50, key_prefix='get_user')
+    def get_user(self, username):
+        return User.get_username_or_404(username)
+
+    def get_user_testing(self, username):
+        return User.get_username_or_404(username)
 
 @api.route("/users/upload")
 class UserUploadResource(Resource, Cloud):
