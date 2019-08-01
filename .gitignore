@@ -8,3 +8,5 @@ virtualenv
 .coverage
 celerybeat-schedule
 celerybeat.pid
+.pytest_cache
+airtech_db
