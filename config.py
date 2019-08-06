@@ -32,7 +32,7 @@ class Config(object):
         'id': 'periodic_email',
         'func': 'scheduler:scheduler',
         'trigger': 'interval',
-        'seconds': 4
+        'hours': 24
     }]
 
     SCHEDULER_API_ENABLED = True
