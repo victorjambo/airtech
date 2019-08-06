@@ -13,6 +13,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from celery import Celery
 from flask_caching import Cache
+from flask_apscheduler import APScheduler
 
 # Middlewares
 from api import api_blueprint
@@ -24,6 +25,8 @@ config_name = getenv('FLASK_ENV', default='production')
 api = Api(api_blueprint, doc=False)
 mail = Mail()
 cache = Cache()
+scheduler = APScheduler()
+
 
 def cache_type():
     """Check if redis is running. used for caching endpoints
@@ -63,11 +66,16 @@ def create_app(config=config[config_name]):
     mail.init_app(app)
     cache.init_app(app)
 
+    # BG tasks
+    # scheduler.init_app(app)
+    # scheduler.start()
+
     # initialize error handlers
     initialize_errorhandlers(app)
 
     # bind app to db
     db.init_app(app)
+    # db.app = app
 
     # import all models
     from api.models import User, Flight, Ticket

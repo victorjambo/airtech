@@ -28,6 +28,15 @@ class Config(object):
     CACHE_REDIS_PORT = getenv('CACHE_REDIS_PORT', default='6379')
     CACHE_REDIS_URL = getenv('CACHE_REDIS_URL', default='redis://localhost:6379')
 
+    JOBS = [{
+        'id': 'periodic_email',
+        'func': 'scheduler:scheduler',
+        'trigger': 'interval',
+        'seconds': 4
+    }]
+
+    SCHEDULER_API_ENABLED = True
+
 
 class ProductionConfig(Config):
     DATABASE_URL = getenv('DATABASE_URL')
@@ -36,6 +45,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    MAIL_SUPPRESS_SEND = False
 
 
 class TestingConfig(Config):
