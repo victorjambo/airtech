@@ -19,9 +19,11 @@ def send_email(ticket):
       sender=sender,
       recipients=[user.email]
   )
-  msg.html = render_template('email.html', ticket=ticket, path=path)
 
-  mail.send(msg)
+  from app import app
+  with app.app_context():
+    msg.html = render_template('email.html', ticket=ticket, path=path)
+    mail.send(msg)
 
 def periodic_email():
   """Send emails to flights in the next 24 hours
