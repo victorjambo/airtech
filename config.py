@@ -51,7 +51,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     CACHE_TYPE = 'simple'
     TESTING = True
-    SQLALCHEMY_DATABASE_URL = getenv('TEST_DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URL',
                                      default='postgresql://localhost/airtech_test')
 
 
