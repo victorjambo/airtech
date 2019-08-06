@@ -2,7 +2,7 @@ from os import getenv
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI',
+    SQLALCHEMY_DATABASE_URL = getenv('DATABASE_URL',
                                      default='postgresql://localhost/airtech')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
@@ -27,9 +27,12 @@ class Config(object):
     CACHE_REDIS_PORT = getenv('CACHE_REDIS_PORT', default='6379')
     CACHE_REDIS_URL = getenv('CACHE_REDIS_URL', default='redis://localhost:6379')
 
+    def get_cache_type(self):
+        pass
+
 
 class ProductionConfig(Config):
-    DATABASE_URI = getenv('DATABASE_URI')
+    DATABASE_URL = getenv('DATABASE_URL')
     MAIL_SUPPRESS_SEND = False
 
 
@@ -40,7 +43,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     CACHE_TYPE = 'simple'
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URI',
+    SQLALCHEMY_DATABASE_URL = getenv('TEST_DATABASE_URL',
                                      default='postgresql://localhost/airtech_test')
 
 
