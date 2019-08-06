@@ -1,3 +1,4 @@
+import redis
 from os import getenv
 
 
@@ -21,14 +22,11 @@ class Config(object):
     CELERY_RESULT_BACKEND = getenv(
         'CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
 
-    CACHE_TYPE = 'redis'
+    CACHE_TYPE = 'simple'
     CACHE_KEY_PREFIX = 'fcache'
     CACHE_REDIS_HOST = getenv('CACHE_REDIS_HOST', default='localhost')
     CACHE_REDIS_PORT = getenv('CACHE_REDIS_PORT', default='6379')
     CACHE_REDIS_URL = getenv('CACHE_REDIS_URL', default='redis://localhost:6379')
-
-    def get_cache_type(self):
-        pass
 
 
 class ProductionConfig(Config):

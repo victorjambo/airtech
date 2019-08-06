@@ -1,5 +1,6 @@
 """Module for application factory."""
 # System libraries
+import redis
 from os import getenv
 
 # Third-party libraries
@@ -23,6 +24,20 @@ config_name = getenv('FLASK_ENV', default='production')
 api = Api(api_blueprint, doc=False)
 mail = Mail()
 cache = Cache()
+
+def cache_type():
+    """Check if redis is running. used for caching endpoints
+    """
+    rs = redis.Redis("localhost")
+    try:
+        rs.ping()
+        if config_name != 'testing':
+            return 'redis'
+    except (redis.exceptions.ConnectionError, redis.exceptions.BusyLoadingError):
+        return 'simple'
+    return 'simple'
+
+config[config_name].CACHE_TYPE = cache_type()
 
 # Celery object and configures it with the broker (redis).
 # __name__ is the app.name, which will be initialized later
