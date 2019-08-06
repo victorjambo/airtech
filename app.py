@@ -13,7 +13,10 @@ app = create_app(config[config_name])
 
 @app.route('/')
 def index():
-    return jsonify(dict(message='Welcome to the Flight API'))
+    return jsonify({
+        'message': 'Welcome to the Airtech Flight API',
+        'documentation': 'https://documenter.getpostman.com/view/5205892/SVYkvLfQ?version=latest'
+    })
 
 @app.route('/celery/health')
 def celery_stats():
