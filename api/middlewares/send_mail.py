@@ -30,6 +30,5 @@ def periodic_email():
   """
   next_24 = datetime.utcnow() + timedelta(hours=24)
   tickets = Ticket.query.filter(Ticket.travel_date >= datetime.now(), Ticket.travel_date <= next_24).all()
-  print(">>>>>>>>>>>>>>>", tickets)
   for ticket in tickets:
     send_email(ticket)

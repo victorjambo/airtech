@@ -67,15 +67,15 @@ def create_app(config=config[config_name]):
     cache.init_app(app)
 
     # BG tasks
-    # scheduler.init_app(app)
-    # scheduler.start()
+    scheduler.init_app(app)
+    scheduler.start()
 
     # initialize error handlers
     initialize_errorhandlers(app)
 
     # bind app to db
     db.init_app(app)
-    # db.app = app
+    db.app = app
 
     # import all models
     from api.models import User, Flight, Ticket
