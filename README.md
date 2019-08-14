@@ -199,3 +199,7 @@ locust - `127.0.0.1:8089`
 ```bash
 $ make locust
 ```
+monitoring: endpoint `http://127.0.0.1:8089/`
+```bash
+$ locust --host=http://127.0.0.1:8000
+```
