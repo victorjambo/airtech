@@ -105,11 +105,6 @@ Company Airtech has had their challenges using spreadsheets to manage their flig
     flask db upgrade
     ```
 
-- If you'd like to seed initial data to the database:
-    ```
-    flask seed_database
-    ```
-
 - Run the application:
     ```
     flask run
